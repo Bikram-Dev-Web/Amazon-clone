@@ -1,46 +1,77 @@
-import {React,useState} from "react";
-import "./home.css";
-import Delivery from "../imgs/delivery.png";
-import Popular from "./Category/Popular";
-import Navbar from './Navbar'
+import React, { useEffect } from "react";
 
-function Home() {
-  const [scrollPosition, setScrollPosition] = useState(0);
+const Home = () => {
+  const products = [
+    {
+      id: 1,
+      name: "Wireless Earbuds",
+      price: 2999,
+      image: "/images/earbuds.jpg",
+    },
+    {
+      id: 2,
+      name: "Smart LED TV",
+      price: 22999,
+      image: "/images/tv.jpg",
+    },
+    {
+      id: 3,
+      name: "Casual Sneakers",
+      price: 1999,
+      image: "/images/sneakers.jpg",
+    },
+  ];
 
-  document.title = "Amazon"
-
-  const handleScroll = () => {
-    window.scrollTo({
-      top: scrollPosition + 750, 
-      behavior: "smooth" 
-    });
-    setScrollPosition(scrollPosition + 750);
-    setTimeout(() => {
-    setScrollPosition(0); 
-      
-    }, 100); 
-  };
+  useEffect(() => {
+    const container = document.getElementById("widget-container");
+    if (container) {
+      container.innerHTML = ""; // Clear the placeholder
+      const widget = document.createElement("div");
+      widget.innerHTML = "📦 [Widget loaded here]";
+      container.appendChild(widget);
+    }
+  }, []);
 
   return (
-    <>
-    <Navbar/>
-        <div className="content">
-          <div className="poster-area">
-            <div className="poster-data">
-              <p className="poster-head">Free Delivery!</p>
-              <p className="poster-desc">
-                Don't miss it out! Only today, get free{" "}
-                <b style={{ fontSize: "22px" }}>Next Day</b> delivery on all
-                your orders.
-              </p>
-            </div>
-            <button onClick={handleScroll} className="browse-btn">Browse products</button>
+    <div style={{ padding: "20px" }}>
+      <h2 style={{ marginBottom: "20px" }}>📦 Featured Products</h2>
+      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+        {products.map((product) => (
+          <div
+            key={product.id}
+            style={{
+              border: "1px solid #ccc",
+              padding: "10px",
+              width: "200px",
+              textAlign: "center",
+              borderRadius: "8px",
+            }}
+          >
+            <img
+              src={product.image}
+              alt={product.name}
+              style={{ width: "100%", height: "150px", objectFit: "cover" }}
+            />
+            <h3>{product.name}</h3>
+            <p>₹{product.price}</p>
+            <button style={{ padding: "5px 10px" }}>Add to Cart</button>
           </div>
-          <img src={Delivery} className="delivery" />
-          <Popular />
-        </div>
-    </>
+        ))}
+      </div>
+
+      {/* Widget Section */}
+      <div
+        id="widget-container"
+        style={{
+          border: "2px dashed gray",
+          padding: "20px",
+          marginTop: "40px",
+          height: "200px",
+          textAlign: "center",
+        }}
+      ></div>
+    </div>
   );
-}
+};
 
 export default Home;
